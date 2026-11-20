@@ -7,6 +7,15 @@
 !/public
 !/public/index.php
 
+#Scripts
+!/scripts
+!/scripts/ProductSync.php
+
+# Cron
+!/docker
+!/docker/cron
+!/docker/cron/product-sync
+
 # Composer
 !/composer.json
 !/composer.lock
