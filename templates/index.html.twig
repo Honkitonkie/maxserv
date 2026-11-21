@@ -2,7 +2,46 @@
 <head>
     <title>MaxServ B.V. assignment</title>
 </head>
+<style>
+ul {
+    border-spacing: 0;
+    width: 100%;
+    border: 1px solid #ddd;
+}
+li {
+    list-style:none;
+}
+li:nth-child(even) {
+    background-color: #f2f2f2
+}
+</style>
 <body>
-    <h1>{{ message }}</h1>
+    <h1>Products</h1>
+    <ul>
+        {% for product in products %}
+            <li>
+                <article style="display:flex; gap:5px;align-content:center; padding:5px;">
+                    <img src="{{product.thumbnail}}" style="align-content:center" width="100" height="100" >
+                    <div>
+                        <h2>{{ product.title }}</h2>
+                        <p>{{ product.description }}</p>       
+                        {% set discount = product.discount_percentage * 1 %}                 
+                        {% if discount > 0 %}
+                            <del style="color:red;">
+                                €{{ product.price|number_format(2, ',', '.') }}
+                            </del>
+                            <strong>
+                                €{{ (product.price * (100 - discount) / 100)|round(2, 'common')|number_format(2, ',', '.') }}
+                            </strong>
+                        {% else %}
+                            <strong>
+                                €{{ product.price|number_format(2, ',', '.') }}
+                            </strong>
+                        {% endif %}
+                     </div>   
+                </article>
+            </li>
+        {% endfor %}
+    </ul>
 </body>
 </html>

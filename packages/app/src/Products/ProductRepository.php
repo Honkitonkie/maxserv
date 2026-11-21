@@ -22,6 +22,13 @@ class ProductRepository
         return $this->connection;
     }
 
+    public function getProducts(): array
+    {
+        $sql = "SELECT * FROM products ORDER BY id ASC";
+        $stmt = $this->connection->query($sql);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function createTables(): void
     {
         $sql = "
