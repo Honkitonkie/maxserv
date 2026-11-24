@@ -22,11 +22,33 @@ class ProductRepository
         return $this->connection;
     }
 
-    public function getProducts(): array
+    public function getProducts(string $sort = 'title_asc'): array
     {
-        $sql = "SELECT * FROM products ORDER BY id ASC";
+        $sortOptions = [
+            'title_asc'   => 'title ASC',
+            'title_desc'  => 'title DESC',
+            'price_asc'  => 'price ASC',
+            'price_desc' => 'price DESC',
+            'id_asc'     => 'id ASC',
+            'id_desc'    => 'id DESC',
+        ];
+        $orderBy = $sortOptions[$sort] ?? 'title ASC';
+        $sql = "SELECT * FROM products ORDER BY $orderBy";
         $stmt = $this->connection->query($sql);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getProductById(int $id): ?array
+    {
+        $stmt = $this->connection->prepare(
+            "SELECT * FROM products WHERE id = :id"
+        );
+
+        $stmt->execute(['id' => $id]);
+
+        $product = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $product ?: null;
     }
 
     public function createTables(): void

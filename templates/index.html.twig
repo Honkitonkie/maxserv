@@ -3,20 +3,107 @@
     <title>MaxServ B.V. assignment</title>
 </head>
 <style>
-ul {
-    border-spacing: 0;
-    width: 100%;
-    border: 1px solid #ddd;
-}
-li {
-    list-style:none;
-}
-li:nth-child(even) {
-    background-color: #f2f2f2
-}
+    * {
+        box-sizing: border-box;
+    }
+    body {
+        margin: 0;
+        padding: 20px;
+        width: 100%;
+        overflow-x: hidden;
+    }
+    h1 {
+        margin: 0 0 20px 0;
+        text-align: center;
+    }
+    ul {
+        border-spacing: 0;
+        width: 100%;
+        border: 1px solid #ddd;
+    }
+    li {
+        list-style:none;
+    }
+    li:nth-child(even) {
+        background-color: #f2f2f2
+    }
+    .active {
+        font-weight:bolder;
+        background:lightblue;
+    }
+    .sorting {
+        display:flex;
+        gap: 10px;
+        justify-content: center;
+    }
+    .button {
+        background: #f2f2f2;
+        border-radius:15px;
+        padding: 15px 10px;
+        color: black;
+        text-decoration: none;
+        content: ⇅; 
+    }
+    .button:hover {
+        transform: scale(1.05);
+        font-weight: bolder;
+    }
+    .button::after {
+        content: " ⇅";
+        display: inline-block;
+        transition: transform 0.3s ease-in-out;
+    }
+    .button:hover::after {
+        animation: upDown 0.6s ease-in-out infinite alternate;
+    }
+
+    @keyframes upDown {
+        from {
+            transform: translateY(-2px);
+        }
+        to {
+            transform: translateY(2px);
+        }
+    }
+
 </style>
 <body>
-    <h1>Products</h1>
+    <h1>Product list</h1>
+    <div class="sorting">
+        <a href="/?sort=title_asc"
+         class="button down {{ currentSort == 'title_asc' ? 'active' : '' }}"
+         >
+            Title A-Z
+        </a>
+
+        <a href="/?sort=title_desc"
+         class="button up {{ currentSort == 'title_desc' ? 'active' : '' }}"
+         >
+            Title Z-A
+        </a>
+
+        <a href="/?sort=price_asc"
+         class="button down {{ currentSort == 'price_asc' ? 'active' : '' }}"
+         >
+            Price low to high
+        </a>
+
+        <a href="/?sort=price_desc"
+         class="button up {{ currentSort == 'price_desc' ? 'active' : '' }}">
+            Price high to low
+        </a>
+
+        <a href="/?sort=id_asc"
+         class="button down {{ currentSort == 'id_asc' ? 'active' : '' }}"
+         >
+            Id low to high
+        </a>
+
+        <a href="/?sort=id_desc"
+         class="button up {{ currentSort == 'id_desc' ? 'active' : '' }}">
+            Id high to low
+        </a>
+    </div>
     <ul>
         {% for product in products %}
             <li>

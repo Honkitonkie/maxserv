@@ -15,8 +15,7 @@ readonly class IndexController
     public function __construct(
         private TemplateRenderer $templateRenderer,
         private ProductRepository $productRepository
-    ) {
-    }
+    ) {}
 
     /**
      * @throws RuntimeError
@@ -25,10 +24,11 @@ readonly class IndexController
      */
     public function index(): void
     {
-        // Your logic here
-        $products = $this->productRepository->getProducts();
+        $sort = $_GET['sort'] ?? 'title_asc';
+        $products = $this->productRepository->getProducts($sort);
         echo $this->templateRenderer->render('index.html.twig', [
-            'products' => $products
+            'products' => $products,
+            'currentSort' => $sort
         ]);
     }
 }
